@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{CF9A47AB-321C-49D3-BEBC-79A45E238330}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>WinformUI</RootNamespace>
+    <AssemblyName>WinformUI</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <LangVersion>latest</LangVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AcCoreMgd, Version=20.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoCAD.NET.Core.20.0.0\lib\45\AcCoreMgd.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="AcCui, Version=20.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoCAD.NET.20.0.0\lib\45\AcCui.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="AcDbMgd, Version=20.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoCAD.NET.Model.20.0.0\lib\45\AcDbMgd.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="acdbmgdbrep, Version=20.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoCAD.NET.Model.20.0.0\lib\45\acdbmgdbrep.dll</HintPath>
+    </Reference>
+    <Reference Include="AcDx, Version=20.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoCAD.NET.20.0.0\lib\45\AcDx.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="AcMgd, Version=20.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoCAD.NET.20.0.0\lib\45\AcMgd.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="AcMr, Version=20.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoCAD.NET.20.0.0\lib\45\AcMr.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="AcTcMgd, Version=20.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoCAD.NET.20.0.0\lib\45\AcTcMgd.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="AcWindows, Version=20.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoCAD.NET.20.0.0\lib\45\AcWindows.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="AdWindows, Version=5.2.10.200, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoCAD.NET.20.0.0\lib\45\AdWindows.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Aspose.Cells, Version=23.8.0.0, Culture=neutral, PublicKeyToken=716fcc553a201e56, processorArchitecture=MSIL">
+      <HintPath>..\packages\Aspose.Cells.23.8.0\lib\net40\Aspose.Cells.dll</HintPath>
+    </Reference>
+    <Reference Include="Aspose.Words, Version=23.8.0.0, Culture=neutral, PublicKeyToken=716fcc553a201e56, processorArchitecture=MSIL">
+      <HintPath>..\packages\Aspose.Words.23.8.0\lib\net461\Aspose.Words.dll</HintPath>
+    </Reference>
+    <Reference Include="Aspose.Words.Pdf2Word, Version=23.8.0.0, Culture=neutral, PublicKeyToken=716fcc553a201e56, processorArchitecture=MSIL">
+      <HintPath>..\packages\Aspose.Words.23.8.0\lib\net461\Aspose.Words.Pdf2Word.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net, Version=3.0.4.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\packages\log4net.3.0.4\lib\net462\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=8.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Bcl.AsyncInterfaces.8.0.0\lib\net462\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.DotNet.PlatformAbstractions, Version=2.0.4.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.DotNet.PlatformAbstractions.2.0.4\lib\net45\Microsoft.DotNet.PlatformAbstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.DependencyModel, Version=2.0.4.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.DependencyModel.2.0.4\lib\net451\Microsoft.Extensions.DependencyModel.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Logging.Abstractions, Version=7.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Logging.Abstractions.7.0.0\lib\net462\Microsoft.Extensions.Logging.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualBasic" />
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Ookii.Dialogs.WinForms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=66aa232afad40158, processorArchitecture=MSIL">
+      <HintPath>..\packages\Ookii.Dialogs.WinForms.4.0.0\lib\net462\Ookii.Dialogs.WinForms.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.OracleClient" />
+    <Reference Include="System.Design" />
+    <Reference Include="System.Diagnostics.DiagnosticSource, Version=7.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Diagnostics.DiagnosticSource.7.0.0\lib\net462\System.Diagnostics.DiagnosticSource.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Diagnostics.PerformanceCounter, Version=4.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Diagnostics.PerformanceCounter.4.5.0\lib\net461\System.Diagnostics.PerformanceCounter.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Drawing.Common, Version=4.0.0.2, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Drawing.Common.5.0.3\lib\net461\System.Drawing.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Memory, Version=4.0.1.2, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Memory.4.5.5\lib\net461\System.Memory.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net" />
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Resources.Extensions, Version=6.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Resources.Extensions.6.0.0\lib\net461\System.Resources.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.6.0.0\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security" />
+    <Reference Include="System.Security.AccessControl, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.AccessControl.4.5.0\lib\net461\System.Security.AccessControl.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.Pkcs, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Cryptography.Pkcs.4.7.0\lib\net461\System.Security.Cryptography.Pkcs.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security.Permissions, Version=4.0.1.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Permissions.4.5.0\lib\net461\System.Security.Permissions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security.Principal.Windows, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Principal.Windows.4.5.0\lib\net461\System.Security.Principal.Windows.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ServiceProcess" />
+    <Reference Include="System.Text.Encoding.CodePages, Version=7.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Text.Encoding.CodePages.7.0.0\lib\net462\System.Text.Encoding.CodePages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Text.Encodings.Web, Version=8.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Text.Encodings.Web.8.0.0\lib\net462\System.Text.Encodings.Web.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Text.Json, Version=8.0.0.3, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Text.Json.8.0.3\lib\net462\System.Text.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Threading.Tasks.Extensions.4.5.4\lib\net461\System.Threading.Tasks.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net47\System.ValueTuple.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="BlockReplace\BlockReplaceForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="BlockReplace\BlockReplaceForm.Designer.cs">
+      <DependentUpon>BlockReplaceForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="BlockReplace\BlockReplaceProcessor.cad.cs" />
+    <Compile Include="BlockReplace\BlockSelectionForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="BlockReplace\BlockSelectionForm.Designer.cs">
+      <DependentUpon>BlockSelectionForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UpdateFrameTag\ReadExcelModifyCAD.cad.cs" />
+    <Compile Include="UpdateFrameTag\ReadExcelModifyCAD.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UpdateFrameTag\ReadExcelModifyCAD.Designer.cs">
+      <DependentUpon>ReadExcelModifyCAD.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UpdateTable\BatchUpdateTableForm.cad.cs" />
+    <Compile Include="UpdateTable\BatchUpdateTableForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UpdateTable\BatchUpdateTableForm.Designer.cs">
+      <DependentUpon>BatchUpdateTableForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UpdateTable\BatchUpdateTableForm.model.cs" />
+    <Compile Include="UpgradeProject\BatchUpgradeProjectForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UpgradeProject\BatchUpgradeProjectForm.Designer.cs">
+      <DependentUpon>BatchUpgradeProjectForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CADHelper\AnnotateTools.cs" />
+    <Compile Include="CADHelper\ArcTools.cs" />
+    <Compile Include="CADHelper\BlockTools.cs" />
+    <Compile Include="CADHelper\CircleTools.cs" />
+    <Compile Include="CADHelper\CommandTools.cs" />
+    <Compile Include="CADHelper\CommonTools.cs" />
+    <Compile Include="CADHelper\COMTools.cs" />
+    <Compile Include="CADHelper\CUITools.cs" />
+    <Compile Include="CADHelper\DataConvert.cs" />
+    <Compile Include="CADHelper\DictTools.cs" />
+    <Compile Include="CADHelper\DwgBlockReader.cs" />
+    <Compile Include="CADHelper\DimStyleTools.cs" />
+    <Compile Include="CADHelper\DimTools.cs" />
+    <Compile Include="CADHelper\DocumentTools.cs" />
+    <Compile Include="CADHelper\Draw3DTools.cs" />
+    <Compile Include="CADHelper\DrawingUtility.cs" />
+    <Compile Include="CADHelper\EllipseTools.cs" />
+    <Compile Include="CADHelper\EntTools.cs" />
+    <Compile Include="CADHelper\GeTools.cs" />
+    <Compile Include="CADHelper\GroupTools.cs" />
+    <Compile Include="CADHelper\HatchTools.cs" />
+    <Compile Include="CADHelper\IniHelper.cs" />
+    <Compile Include="CADHelper\LayerTools.cs" />
+    <Compile Include="CADHelper\LayoutTools.cs" />
+    <Compile Include="CADHelper\LineTypeTools.cs" />
+    <Compile Include="CADHelper\LinqToCAD.cs" />
+    <Compile Include="CADHelper\ListTools.cs" />
+    <Compile Include="CADHelper\MessageFilter.cs" />
+    <Compile Include="CADHelper\MLineTools.cs" />
+    <Compile Include="CADHelper\ModifyInMemory.cs" />
+    <Compile Include="CADHelper\MyDeepCopy.cs" />
+    <Compile Include="CADHelper\PInvoke.cs" />
+    <Compile Include="CADHelper\PlotSettingsEx.cs" />
+    <Compile Include="CADHelper\PlotTools.cs" />
+    <Compile Include="CADHelper\PolylineTools.cs" />
+    <Compile Include="CADHelper\ProgressManager.cs" />
+    <Compile Include="CADHelper\Reflection.cs" />
+    <Compile Include="CADHelper\RegionTools.cs" />
+    <Compile Include="CADHelper\Register.cs" />
+    <Compile Include="CADHelper\SelectionTools.cs" />
+    <Compile Include="CADHelper\SerializeTool.cs" />
+    <Compile Include="CADHelper\SummaryInfoTools.cs" />
+    <Compile Include="CADHelper\TableTools.cs" />
+    <Compile Include="CADHelper\TextStyleTools.cs" />
+    <Compile Include="CADHelper\TextTools.cs" />
+    <Compile Include="CADHelper\Tools.cs" />
+    <Compile Include="CADHelper\TXT.cs" />
+    <Compile Include="CADHelper\UCSTools.cs" />
+    <Compile Include="CADHelper\ViewportTools.cs" />
+    <Compile Include="CADHelper\ViewTableTools.cs" />
+    <Compile Include="CADHelper\XDataTools.cs" />
+    <Compile Include="CADHelper\XrefTools.cs" />
+    <Compile Include="UpgradeProject\CadProcessor.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Service Include="{94E38DFF-614B-4cbd-B67C-F211BB35CE8B}" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="BlockReplace\BlockReplaceForm.resx">
+      <DependentUpon>BlockReplaceForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UpdateFrameTag\ReadExcelModifyCAD.resx">
+      <DependentUpon>ReadExcelModifyCAD.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UpdateTable\BatchUpdateTableForm.resx">
+      <DependentUpon>BatchUpdateTableForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UpgradeProject\BatchUpgradeProjectForm.resx">
+      <DependentUpon>BatchUpgradeProjectForm.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="AutoCAD">
+      <Guid>{AA9A2205-75AA-43AD-9138-1767F1BB5E0C}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="stdole">
+      <Guid>{00020430-0000-0000-C000-000000000046}</Guid>
+      <VersionMajor>2</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MyOffice\MyOffice.csproj">
+      <Project>{33f578df-b04e-453d-88a4-b54a01671ce0}</Project>
+      <Name>MyOffice</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

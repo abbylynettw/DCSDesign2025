@@ -1,0 +1,909 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="mainSplitContainer.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="mainSplitContainer.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="gridMappings.ColumnHeadersHeight" type="System.Int32, mscorlib">
+    <value>30</value>
+  </data>
+  <data name="EnabledColumn.HeaderText" xml:space="preserve">
+    <value>更新</value>
+  </data>
+  <data name="EnabledColumn.MinimumWidth" type="System.Int32, mscorlib">
+    <value>60</value>
+  </data>
+  <data name="EnabledColumn.Width" type="System.Int32, mscorlib">
+    <value>60</value>
+  </data>
+  <data name="DwgKeywordColumn.HeaderText" xml:space="preserve">
+    <value>文件自定义属性</value>
+  </data>
+  <data name="DwgKeywordColumn.MinimumWidth" type="System.Int32, mscorlib">
+    <value>100</value>
+  </data>
+  <metadata name="TableTitleColumn.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <data name="TableTitleColumn.HeaderText" xml:space="preserve">
+    <value>CAD表格标题名</value>
+  </data>
+  <data name="TableTitleColumn.MinimumWidth" type="System.Int32, mscorlib">
+    <value>100</value>
+  </data>
+  <data name="ExcelSheetColumn.HeaderText" xml:space="preserve">
+    <value>Excel表名</value>
+  </data>
+  <data name="ExcelSheetColumn.MinimumWidth" type="System.Int32, mscorlib">
+    <value>100</value>
+  </data>
+  <data name="gridMappings.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="gridMappings.Location" type="System.Drawing.Point, System.Drawing">
+    <value>10, 31</value>
+  </data>
+  <data name="gridMappings.RowHeadersWidth" type="System.Int32, mscorlib">
+    <value>25</value>
+  </data>
+  <data name="gridMappings.Size" type="System.Drawing.Size, System.Drawing">
+    <value>276, 292</value>
+  </data>
+  <data name="gridMappings.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;gridMappings.Name" xml:space="preserve">
+    <value>gridMappings</value>
+  </data>
+  <data name="&gt;&gt;gridMappings.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridView, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;gridMappings.Parent" xml:space="preserve">
+    <value>mappingGroupBox</value>
+  </data>
+  <data name="&gt;&gt;gridMappings.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="checkSelectAll.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="checkSelectAll.Location" type="System.Drawing.Point, System.Drawing">
+    <value>10, 10</value>
+  </data>
+  <data name="checkSelectAll.Size" type="System.Drawing.Size, System.Drawing">
+    <value>70, 22</value>
+  </data>
+  <data name="checkSelectAll.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="checkSelectAll.Text" xml:space="preserve">
+    <value>全选</value>
+  </data>
+  <data name="&gt;&gt;checkSelectAll.Name" xml:space="preserve">
+    <value>checkSelectAll</value>
+  </data>
+  <data name="&gt;&gt;checkSelectAll.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;checkSelectAll.Parent" xml:space="preserve">
+    <value>mappingButtonPanel</value>
+  </data>
+  <data name="&gt;&gt;checkSelectAll.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="btnDelete.Location" type="System.Drawing.Point, System.Drawing">
+    <value>150, 5</value>
+  </data>
+  <data name="btnDelete.Size" type="System.Drawing.Size, System.Drawing">
+    <value>60, 30</value>
+  </data>
+  <data name="btnDelete.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="btnDelete.Text" xml:space="preserve">
+    <value>删除</value>
+  </data>
+  <data name="&gt;&gt;btnDelete.Name" xml:space="preserve">
+    <value>btnDelete</value>
+  </data>
+  <data name="&gt;&gt;btnDelete.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;btnDelete.Parent" xml:space="preserve">
+    <value>mappingButtonPanel</value>
+  </data>
+  <data name="&gt;&gt;btnDelete.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="btnAdd.Location" type="System.Drawing.Point, System.Drawing">
+    <value>80, 5</value>
+  </data>
+  <data name="btnAdd.Size" type="System.Drawing.Size, System.Drawing">
+    <value>60, 30</value>
+  </data>
+  <data name="btnAdd.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="btnAdd.Text" xml:space="preserve">
+    <value>新增</value>
+  </data>
+  <data name="&gt;&gt;btnAdd.Name" xml:space="preserve">
+    <value>btnAdd</value>
+  </data>
+  <data name="&gt;&gt;btnAdd.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;btnAdd.Parent" xml:space="preserve">
+    <value>mappingButtonPanel</value>
+  </data>
+  <data name="&gt;&gt;btnAdd.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="btnExport.Location" type="System.Drawing.Point, System.Drawing">
+    <value>290, 5</value>
+  </data>
+  <data name="btnExport.Size" type="System.Drawing.Size, System.Drawing">
+    <value>60, 30</value>
+  </data>
+  <data name="btnExport.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="btnExport.Text" xml:space="preserve">
+    <value>导出</value>
+  </data>
+  <data name="&gt;&gt;btnExport.Name" xml:space="preserve">
+    <value>btnExport</value>
+  </data>
+  <data name="&gt;&gt;btnExport.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;btnExport.Parent" xml:space="preserve">
+    <value>mappingButtonPanel</value>
+  </data>
+  <data name="&gt;&gt;btnExport.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="btnImport.Location" type="System.Drawing.Point, System.Drawing">
+    <value>220, 5</value>
+  </data>
+  <data name="btnImport.Size" type="System.Drawing.Size, System.Drawing">
+    <value>60, 30</value>
+  </data>
+  <data name="btnImport.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="btnImport.Text" xml:space="preserve">
+    <value>导入</value>
+  </data>
+  <data name="&gt;&gt;btnImport.Name" xml:space="preserve">
+    <value>btnImport</value>
+  </data>
+  <data name="&gt;&gt;btnImport.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;btnImport.Parent" xml:space="preserve">
+    <value>mappingButtonPanel</value>
+  </data>
+  <data name="&gt;&gt;btnImport.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="mappingButtonPanel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Bottom</value>
+  </data>
+  <data name="mappingButtonPanel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>10, 323</value>
+  </data>
+  <data name="mappingButtonPanel.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>5, 5, 5, 5</value>
+  </data>
+  <data name="mappingButtonPanel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>276, 52</value>
+  </data>
+  <data name="mappingButtonPanel.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;mappingButtonPanel.Name" xml:space="preserve">
+    <value>mappingButtonPanel</value>
+  </data>
+  <data name="&gt;&gt;mappingButtonPanel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;mappingButtonPanel.Parent" xml:space="preserve">
+    <value>mappingGroupBox</value>
+  </data>
+  <data name="&gt;&gt;mappingButtonPanel.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="mappingGroupBox.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="mappingGroupBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>10, 95</value>
+  </data>
+  <data name="mappingGroupBox.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>10, 10, 10, 10</value>
+  </data>
+  <data name="mappingGroupBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>296, 385</value>
+  </data>
+  <data name="mappingGroupBox.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="mappingGroupBox.Text" xml:space="preserve">
+    <value>表格映射配置</value>
+  </data>
+  <data name="&gt;&gt;mappingGroupBox.Name" xml:space="preserve">
+    <value>mappingGroupBox</value>
+  </data>
+  <data name="&gt;&gt;mappingGroupBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;mappingGroupBox.Parent" xml:space="preserve">
+    <value>configPanel</value>
+  </data>
+  <data name="&gt;&gt;mappingGroupBox.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="excelTableLayout.ColumnCount" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="txtFolderPath.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="txtFolderPath.Location" type="System.Drawing.Point, System.Drawing">
+    <value>5, 5</value>
+  </data>
+  <data name="txtFolderPath.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>5, 5, 5, 5</value>
+  </data>
+  <data name="txtFolderPath.Size" type="System.Drawing.Size, System.Drawing">
+    <value>217, 28</value>
+  </data>
+  <data name="txtFolderPath.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;txtFolderPath.Name" xml:space="preserve">
+    <value>txtFolderPath</value>
+  </data>
+  <data name="&gt;&gt;txtFolderPath.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;txtFolderPath.Parent" xml:space="preserve">
+    <value>excelTableLayout</value>
+  </data>
+  <data name="&gt;&gt;txtFolderPath.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="btnBrowseExcel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="btnBrowseExcel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>232, 5</value>
+  </data>
+  <data name="btnBrowseExcel.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>5, 5, 5, 5</value>
+  </data>
+  <data name="btnBrowseExcel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>39, 34</value>
+  </data>
+  <data name="btnBrowseExcel.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="btnBrowseExcel.Text" xml:space="preserve">
+    <value>浏览...</value>
+  </data>
+  <data name="&gt;&gt;btnBrowseExcel.Name" xml:space="preserve">
+    <value>btnBrowseExcel</value>
+  </data>
+  <data name="&gt;&gt;btnBrowseExcel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;btnBrowseExcel.Parent" xml:space="preserve">
+    <value>excelTableLayout</value>
+  </data>
+  <data name="&gt;&gt;btnBrowseExcel.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="excelTableLayout.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="excelTableLayout.Location" type="System.Drawing.Point, System.Drawing">
+    <value>10, 31</value>
+  </data>
+  <data name="excelTableLayout.RowCount" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="excelTableLayout.Size" type="System.Drawing.Size, System.Drawing">
+    <value>276, 44</value>
+  </data>
+  <data name="excelTableLayout.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;excelTableLayout.Name" xml:space="preserve">
+    <value>excelTableLayout</value>
+  </data>
+  <data name="&gt;&gt;excelTableLayout.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TableLayoutPanel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;excelTableLayout.Parent" xml:space="preserve">
+    <value>excelGroupBox</value>
+  </data>
+  <data name="&gt;&gt;excelTableLayout.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="excelTableLayout.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
+    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="txtFolderPath" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="btnBrowseExcel" Row="0" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Percent,70,Percent,15" /&gt;&lt;Rows Styles="Percent,100" /&gt;&lt;/TableLayoutSettings&gt;</value>
+  </data>
+  <data name="excelGroupBox.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Top</value>
+  </data>
+  <data name="excelGroupBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>10, 10</value>
+  </data>
+  <data name="excelGroupBox.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>10, 10, 10, 10</value>
+  </data>
+  <data name="excelGroupBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>296, 85</value>
+  </data>
+  <data name="excelGroupBox.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="excelGroupBox.Text" xml:space="preserve">
+    <value>待更新目录选择</value>
+  </data>
+  <data name="&gt;&gt;excelGroupBox.Name" xml:space="preserve">
+    <value>excelGroupBox</value>
+  </data>
+  <data name="&gt;&gt;excelGroupBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;excelGroupBox.Parent" xml:space="preserve">
+    <value>configPanel</value>
+  </data>
+  <data name="&gt;&gt;excelGroupBox.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="configPanel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="configPanel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="configPanel.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>10, 10, 10, 10</value>
+  </data>
+  <data name="configPanel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>316, 490</value>
+  </data>
+  <data name="configPanel.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;configPanel.Name" xml:space="preserve">
+    <value>configPanel</value>
+  </data>
+  <data name="&gt;&gt;configPanel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;configPanel.Parent" xml:space="preserve">
+    <value>mainSplitContainer.Panel1</value>
+  </data>
+  <data name="&gt;&gt;configPanel.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;mainSplitContainer.Panel1.Name" xml:space="preserve">
+    <value>mainSplitContainer.Panel1</value>
+  </data>
+  <data name="&gt;&gt;mainSplitContainer.Panel1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.SplitterPanel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;mainSplitContainer.Panel1.Parent" xml:space="preserve">
+    <value>mainSplitContainer</value>
+  </data>
+  <data name="&gt;&gt;mainSplitContainer.Panel1.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="txtLog.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="txtLog.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Consolas, 9pt</value>
+  </data>
+  <data name="txtLog.Location" type="System.Drawing.Point, System.Drawing">
+    <value>10, 31</value>
+  </data>
+  <data name="txtLog.Size" type="System.Drawing.Size, System.Drawing">
+    <value>345, 289</value>
+  </data>
+  <data name="txtLog.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="txtLog.Text" xml:space="preserve">
+    <value>就绪，等待操作...</value>
+  </data>
+  <data name="&gt;&gt;txtLog.Name" xml:space="preserve">
+    <value>txtLog</value>
+  </data>
+  <data name="&gt;&gt;txtLog.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RichTextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;txtLog.Parent" xml:space="preserve">
+    <value>logGroupBox</value>
+  </data>
+  <data name="&gt;&gt;txtLog.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="logGroupBox.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="logGroupBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>10, 150</value>
+  </data>
+  <data name="logGroupBox.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>10, 10, 10, 10</value>
+  </data>
+  <data name="logGroupBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>365, 330</value>
+  </data>
+  <data name="logGroupBox.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="logGroupBox.Text" xml:space="preserve">
+    <value>处理日志</value>
+  </data>
+  <data name="&gt;&gt;logGroupBox.Name" xml:space="preserve">
+    <value>logGroupBox</value>
+  </data>
+  <data name="&gt;&gt;logGroupBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;logGroupBox.Parent" xml:space="preserve">
+    <value>controlPanel</value>
+  </data>
+  <data name="&gt;&gt;logGroupBox.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="updateTableLayout.ColumnCount" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="radioExcelToCAD.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="radioExcelToCAD.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 3</value>
+  </data>
+  <data name="radioExcelToCAD.Size" type="System.Drawing.Size, System.Drawing">
+    <value>97, 43</value>
+  </data>
+  <data name="radioExcelToCAD.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="radioExcelToCAD.Text" xml:space="preserve">
+    <value>从Excel更新到CAD</value>
+  </data>
+  <data name="radioExcelToCAD.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleCenter</value>
+  </data>
+  <data name="&gt;&gt;radioExcelToCAD.Name" xml:space="preserve">
+    <value>radioExcelToCAD</value>
+  </data>
+  <data name="&gt;&gt;radioExcelToCAD.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;radioExcelToCAD.Parent" xml:space="preserve">
+    <value>updateTableLayout</value>
+  </data>
+  <data name="&gt;&gt;radioExcelToCAD.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="radioCADToExcel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="radioCADToExcel.ImageAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleRight</value>
+  </data>
+  <data name="radioCADToExcel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>106, 3</value>
+  </data>
+  <data name="radioCADToExcel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>97, 43</value>
+  </data>
+  <data name="radioCADToExcel.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="radioCADToExcel.Text" xml:space="preserve">
+    <value>从CAD更新到Excel</value>
+  </data>
+  <data name="radioCADToExcel.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleCenter</value>
+  </data>
+  <data name="&gt;&gt;radioCADToExcel.Name" xml:space="preserve">
+    <value>radioCADToExcel</value>
+  </data>
+  <data name="&gt;&gt;radioCADToExcel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;radioCADToExcel.Parent" xml:space="preserve">
+    <value>updateTableLayout</value>
+  </data>
+  <data name="&gt;&gt;radioCADToExcel.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="checkBackup.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="checkBackup.Location" type="System.Drawing.Point, System.Drawing">
+    <value>209, 3</value>
+  </data>
+  <data name="checkBackup.Size" type="System.Drawing.Size, System.Drawing">
+    <value>63, 43</value>
+  </data>
+  <data name="checkBackup.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="checkBackup.Text" xml:space="preserve">
+    <value>备份</value>
+  </data>
+  <data name="checkBackup.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleCenter</value>
+  </data>
+  <data name="&gt;&gt;checkBackup.Name" xml:space="preserve">
+    <value>checkBackup</value>
+  </data>
+  <data name="&gt;&gt;checkBackup.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;checkBackup.Parent" xml:space="preserve">
+    <value>updateTableLayout</value>
+  </data>
+  <data name="&gt;&gt;checkBackup.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="btnUpdate.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="btnUpdate.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+    <value>Flat</value>
+  </data>
+  <data name="btnUpdate.Location" type="System.Drawing.Point, System.Drawing">
+    <value>285, 3</value>
+  </data>
+  <data name="btnUpdate.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>10, 3, 10, 3</value>
+  </data>
+  <data name="btnUpdate.Size" type="System.Drawing.Size, System.Drawing">
+    <value>50, 43</value>
+  </data>
+  <data name="btnUpdate.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="btnUpdate.Text" xml:space="preserve">
+    <value>开始更新</value>
+  </data>
+  <data name="&gt;&gt;btnUpdate.Name" xml:space="preserve">
+    <value>btnUpdate</value>
+  </data>
+  <data name="&gt;&gt;btnUpdate.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;btnUpdate.Parent" xml:space="preserve">
+    <value>updateTableLayout</value>
+  </data>
+  <data name="&gt;&gt;btnUpdate.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="checkMergeCells.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="checkMergeCells.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 52</value>
+  </data>
+  <data name="checkMergeCells.Size" type="System.Drawing.Size, System.Drawing">
+    <value>97, 44</value>
+  </data>
+  <data name="checkMergeCells.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="checkMergeCells.Text" xml:space="preserve">
+    <value>保持合并单元格</value>
+  </data>
+  <data name="checkMergeCells.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleCenter</value>
+  </data>
+  <data name="&gt;&gt;checkMergeCells.Name" xml:space="preserve">
+    <value>checkMergeCells</value>
+  </data>
+  <data name="&gt;&gt;checkMergeCells.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;checkMergeCells.Parent" xml:space="preserve">
+    <value>updateTableLayout</value>
+  </data>
+  <data name="&gt;&gt;checkMergeCells.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="updateTableLayout.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="updateTableLayout.Location" type="System.Drawing.Point, System.Drawing">
+    <value>10, 31</value>
+  </data>
+  <data name="updateTableLayout.RowCount" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="updateTableLayout.Size" type="System.Drawing.Size, System.Drawing">
+    <value>345, 99</value>
+  </data>
+  <data name="updateTableLayout.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;updateTableLayout.Name" xml:space="preserve">
+    <value>updateTableLayout</value>
+  </data>
+  <data name="&gt;&gt;updateTableLayout.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TableLayoutPanel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;updateTableLayout.Parent" xml:space="preserve">
+    <value>updateGroupBox</value>
+  </data>
+  <data name="&gt;&gt;updateTableLayout.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="updateTableLayout.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
+    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="radioExcelToCAD" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="radioCADToExcel" Row="0" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="checkBackup" Row="0" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="btnUpdate" Row="0" RowSpan="1" Column="3" ColumnSpan="1" /&gt;&lt;Control Name="checkMergeCells" Row="1" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Percent,30,Percent,30,Percent,20,Percent,20" /&gt;&lt;Rows Styles="Percent,100,Absolute,50,Percent,50" /&gt;&lt;/TableLayoutSettings&gt;</value>
+  </data>
+  <data name="updateGroupBox.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Top</value>
+  </data>
+  <data name="updateGroupBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>10, 10</value>
+  </data>
+  <data name="updateGroupBox.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>10, 10, 10, 10</value>
+  </data>
+  <data name="updateGroupBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>365, 140</value>
+  </data>
+  <data name="updateGroupBox.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="updateGroupBox.Text" xml:space="preserve">
+    <value>更新控制</value>
+  </data>
+  <data name="&gt;&gt;updateGroupBox.Name" xml:space="preserve">
+    <value>updateGroupBox</value>
+  </data>
+  <data name="&gt;&gt;updateGroupBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;updateGroupBox.Parent" xml:space="preserve">
+    <value>controlPanel</value>
+  </data>
+  <data name="&gt;&gt;updateGroupBox.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="controlPanel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="controlPanel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="controlPanel.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>10, 10, 10, 10</value>
+  </data>
+  <data name="controlPanel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>385, 490</value>
+  </data>
+  <data name="controlPanel.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;controlPanel.Name" xml:space="preserve">
+    <value>controlPanel</value>
+  </data>
+  <data name="&gt;&gt;controlPanel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;controlPanel.Parent" xml:space="preserve">
+    <value>mainSplitContainer.Panel2</value>
+  </data>
+  <data name="&gt;&gt;controlPanel.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;mainSplitContainer.Panel2.Name" xml:space="preserve">
+    <value>mainSplitContainer.Panel2</value>
+  </data>
+  <data name="&gt;&gt;mainSplitContainer.Panel2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.SplitterPanel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;mainSplitContainer.Panel2.Parent" xml:space="preserve">
+    <value>mainSplitContainer</value>
+  </data>
+  <data name="&gt;&gt;mainSplitContainer.Panel2.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="mainSplitContainer.Size" type="System.Drawing.Size, System.Drawing">
+    <value>705, 490</value>
+  </data>
+  <data name="mainSplitContainer.SplitterDistance" type="System.Int32, mscorlib">
+    <value>316</value>
+  </data>
+  <data name="mainSplitContainer.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;mainSplitContainer.Name" xml:space="preserve">
+    <value>mainSplitContainer</value>
+  </data>
+  <data name="&gt;&gt;mainSplitContainer.Type" xml:space="preserve">
+    <value>System.Windows.Forms.SplitContainer, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;mainSplitContainer.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;mainSplitContainer.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
+    <value>9, 18</value>
+  </data>
+  <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
+    <value>705, 490</value>
+  </data>
+  <data name="$this.Text" xml:space="preserve">
+    <value>DWG-Excel表格映射与更新工具</value>
+  </data>
+  <data name="&gt;&gt;EnabledColumn.Name" xml:space="preserve">
+    <value>EnabledColumn</value>
+  </data>
+  <data name="&gt;&gt;EnabledColumn.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridViewCheckBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;DwgKeywordColumn.Name" xml:space="preserve">
+    <value>DwgKeywordColumn</value>
+  </data>
+  <data name="&gt;&gt;DwgKeywordColumn.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TableTitleColumn.Name" xml:space="preserve">
+    <value>TableTitleColumn</value>
+  </data>
+  <data name="&gt;&gt;TableTitleColumn.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ExcelSheetColumn.Name" xml:space="preserve">
+    <value>ExcelSheetColumn</value>
+  </data>
+  <data name="&gt;&gt;ExcelSheetColumn.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;$this.Name" xml:space="preserve">
+    <value>BatchUpdateTableForm</value>
+  </data>
+  <data name="&gt;&gt;$this.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Form, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+</root>
