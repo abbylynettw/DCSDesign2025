@@ -96,6 +96,7 @@
     <Compile Include="FileUtilHelper.cs" />
     <Compile Include="FormModel.cs" />
     <Compile Include="ExcelProcessor.cs" />
+    <Compile Include="Result.cs" />
     <Compile Include="LogHelper\LogExtensions.cs" />
     <Compile Include="LogHelper\LogManager.cs" />
     <Compile Include="OfficeHelper\LicenseManager.cs" />
