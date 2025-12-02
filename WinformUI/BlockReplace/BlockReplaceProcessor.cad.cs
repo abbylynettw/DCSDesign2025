@@ -7,9 +7,16 @@ using System.IO;
 using MyOffice.LogHelper;
 using log4net;
 using Autodesk.AutoCAD.DatabaseServices;
+using Autodesk.AutoCAD.Geometry;
+using Autodesk.AutoCAD.Runtime;
+using Autodesk.AutoCAD.ApplicationServices;
+using Autodesk.AutoCAD.EditorInput;
+using WinformUI.CADHelper;
+
+// 别名定义，解决类型冲突
+using SystemException = System.Exception;
 using AcadException = Autodesk.AutoCAD.Runtime.Exception;
 using AcadErrorStatus = Autodesk.AutoCAD.Runtime.ErrorStatus;
-using Autodesk.AutoCAD.ApplicationServices;
 
 namespace WinformUI.BlockReplace
 {
@@ -96,6 +103,7 @@ namespace WinformUI.BlockReplace
             public string ErrorMessage { get; set; }
             public DateTime FileLastModified { get; set; }
             public long FileSizeBytes { get; set; }
+            public System.Drawing.Bitmap PreviewImage { get; set; }
         }
 
         /// <summary>
@@ -257,6 +265,9 @@ namespace WinformUI.BlockReplace
                 fileInfo.EstimatedReplacements = CountBlockReferencesInFile(filePath, config.TargetBlockName);
                 fileInfo.CanProcess = true;
                 
+                // 获取块缩略图
+                fileInfo.PreviewImage = GetBlockThumbnail(filePath, config.TargetBlockName);
+                
                 _logger.Debug($"预览文件: {Path.GetFileName(filePath)} - 预计替换 {fileInfo.EstimatedReplacements} 个块");
             }
             catch (Exception ex)
@@ -267,6 +278,149 @@ namespace WinformUI.BlockReplace
             }
 
             return fileInfo;
+        }
+
+        /// <summary>
+        /// 获取DWG文件中指定块的缩略图
+        /// </summary>
+        /// <param name="filePath">文件路径</param>
+        /// <param name="blockName">块名称</param>
+        /// <returns>块缩略图</returns>
+        private static System.Drawing.Bitmap GetBlockThumbnail(string filePath, string blockName)
+        {
+            try
+            {
+                using (var db = new Database(false, true))
+                {
+                    // 打开DWG文件
+                    db.ReadDwgFile(filePath, FileShare.Read, true, "");
+                    
+                    using (var trans = db.TransactionManager.StartTransaction())
+                    {
+                        // 获取块表
+                        var blockTable = trans.GetObject(db.BlockTableId, OpenMode.ForRead) as BlockTable;
+                        
+                        if (blockTable != null && blockTable.Has(blockName))
+                        {
+                            // 获取块定义
+                            var blockId = blockTable[blockName];
+                            var blockDef = trans.GetObject(blockId, OpenMode.ForRead) as BlockTableRecord;
+                            
+                            if (blockDef != null)
+                            {
+                                // 这里可以实现将块转化为缩略图的逻辑
+                                // 由于AutoCAD .NET API没有直接提供将块转化为缩略图的方法
+                                // 我们可以使用一个变通方法：创建一个临时布局，将块插入到布局中，然后获取布局的预览图像
+                                
+                                // 创建临时布局
+                                var layoutId = CreateTemporaryLayout(db, trans);
+                                var layout = trans.GetObject(layoutId, OpenMode.ForWrite) as Layout;
+                                
+                                if (layout != null)
+                                {
+                                    // 设置布局的视口
+                                // 注意：AutoCAD .NET API中Layout类没有GetViewportIds方法
+                                // 我们可以通过遍历布局中的实体来找到视口
+                                Viewport viewport = null;
+                                var layoutBlock = trans.GetObject(layout.BlockTableRecordId, OpenMode.ForRead) as BlockTableRecord;
+                                if (layoutBlock != null)
+                                {
+                                    foreach (ObjectId id in layoutBlock)
+                                    {
+                                        if (id.ObjectClass.DxfName == "VIEWPORT")
+                                        {
+                                            viewport = trans.GetObject(id, OpenMode.ForWrite) as Viewport;
+                                            break;
+                                        }
+                                    }
+                                }
+                                    
+                                    if (viewport != null)
+                                    {
+                                        // 插入块到布局中
+                                        var blockRefId = InsertBlockIntoLayout(db, trans, layout, blockDef);
+                                        
+                                        if (blockRefId != ObjectId.Null)
+                                        {
+                                            // 保存图形以生成缩略图
+                                            var tempFile = Path.GetTempFileName();
+                                            db.SaveAs(tempFile, DwgVersion.Current);
+                                            
+                                            // 获取文件的预览图像
+                                            var previewImage = db.GetPreviewBitmapFromDwg(tempFile);
+                                            
+                                            // 删除临时文件
+                                            File.Delete(tempFile);
+                                            
+                                            return previewImage;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        
+                        trans.Commit();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.Debug($"获取块缩略图失败: {Path.GetFileName(filePath)} - {ex.Message}");
+            }
+            
+            return null;
+        }
+        
+        /// <summary>
+        /// 创建临时布局
+        /// </summary>
+        /// <param name="db">数据库</param>
+        /// <param name="trans">事务</param>
+        /// <returns>布局ID</returns>
+        private static ObjectId CreateTemporaryLayout(Database db, Transaction trans)
+        {
+            // 获取布局表
+            var layoutTable = trans.GetObject(db.Tables[DxfCode.Layout], OpenMode.ForWrite) as LayoutTable;
+            
+            if (layoutTable != null)
+            {
+                // 创建新布局
+                var layout = new Layout();
+                layout.LayoutName = "TempLayout";
+                layoutTable.Add(layout);
+                trans.AddNewlyCreatedDBObject(layout, true);
+                
+                return layout.ObjectId;
+            }
+            
+            return ObjectId.Null;
+        }
+        
+        /// <summary>
+        /// 将块插入到布局中
+        /// </summary>
+        /// <param name="db">数据库</param>
+        /// <param name="trans">事务</param>
+        /// <param name="layout">布局</param>
+        /// <param name="blockDef">块定义</param>
+        /// <returns>块引用ID</returns>
+        private static ObjectId InsertBlockIntoLayout(Database db, Transaction trans, Layout layout, BlockTableRecord blockDef)
+        {
+            // 获取模型空间
+            var modelSpaceId = db.CurrentSpaceId;
+            var modelSpace = trans.GetObject(modelSpaceId, OpenMode.ForWrite) as BlockTableRecord;
+            
+            if (modelSpace != null)
+            {
+                // 创建块引用
+                var blockRef = new BlockReference(new Point3d(0, 0, 0), blockDef.ObjectId);
+                modelSpace.AppendEntity(blockRef);
+                trans.AddNewlyCreatedDBObject(blockRef, true);
+                
+                return blockRef.ObjectId;
+            }
+            
+            return ObjectId.Null;
         }
 
         /// <summary>

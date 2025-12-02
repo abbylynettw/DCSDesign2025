@@ -50,6 +50,11 @@ namespace WinformUI.BlockReplace
             this.btnSaveReport = new System.Windows.Forms.Button();
             this.progressBar = new System.Windows.Forms.ProgressBar();
             this.lblProgress = new System.Windows.Forms.Label();
+            this.pbPreviewImage = new System.Windows.Forms.PictureBox();
+            this.pbBlockThumbnail = new System.Windows.Forms.PictureBox();
+            this.lblBlockThumbnail = new System.Windows.Forms.Label();
+            ((System.ComponentModel.ISupportInitialize)(this.pbPreviewImage)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbBlockThumbnail)).BeginInit();
             this.SuspendLayout();
             // 
             // lblDirectoryInfo
@@ -217,11 +222,38 @@ namespace WinformUI.BlockReplace
             this.btnStop.Text = "停止";
             this.btnStop.UseVisualStyleBackColor = true;
             // 
+            // lblBlockThumbnail
+            // 
+            this.lblBlockThumbnail.AutoSize = true;
+            this.lblBlockThumbnail.Location = new System.Drawing.Point(10, 150);
+            this.lblBlockThumbnail.Name = "lblBlockThumbnail";
+            this.lblBlockThumbnail.Size = new System.Drawing.Size(65, 12);
+            this.lblBlockThumbnail.TabIndex = 23;
+            this.lblBlockThumbnail.Text = "块缩略图:";
+            // 
+            // pbBlockThumbnail
+            // 
+            this.pbBlockThumbnail.Location = new System.Drawing.Point(10, 170);
+            this.pbBlockThumbnail.Name = "pbBlockThumbnail";
+            this.pbBlockThumbnail.Size = new System.Drawing.Size(330, 200);
+            this.pbBlockThumbnail.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pbBlockThumbnail.TabIndex = 24;
+            this.pbBlockThumbnail.TabStop = false;
+            // 
+            // pbPreviewImage
+            // 
+            this.pbPreviewImage.Location = new System.Drawing.Point(350, 40);
+            this.pbPreviewImage.Name = "pbPreviewImage";
+            this.pbPreviewImage.Size = new System.Drawing.Size(200, 200);
+            this.pbPreviewImage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pbPreviewImage.TabIndex = 22;
+            this.pbPreviewImage.TabStop = false;
+            // 
             // rtbLog
             // 
-            this.rtbLog.Location = new System.Drawing.Point(350, 40);
+            this.rtbLog.Location = new System.Drawing.Point(560, 40);
             this.rtbLog.Name = "rtbLog";
-            this.rtbLog.Size = new System.Drawing.Size(500, 300);
+            this.rtbLog.Size = new System.Drawing.Size(290, 300);
             this.rtbLog.TabIndex = 15;
             this.rtbLog.Text = "";
             // 
@@ -264,6 +296,9 @@ namespace WinformUI.BlockReplace
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(870, 400);
+            this.Controls.Add(this.pbBlockThumbnail);
+            this.Controls.Add(this.lblBlockThumbnail);
+            this.Controls.Add(this.pbPreviewImage);
             this.Controls.Add(this.lblTargetBlock);
             this.Controls.Add(this.lblSourceBlock);
             this.Controls.Add(this.lblProgress);
@@ -288,6 +323,8 @@ namespace WinformUI.BlockReplace
             this.Controls.Add(this.lblDirectoryInfo);
             this.Name = "BlockReplaceForm";
             this.Text = "块替换工具";
+            ((System.ComponentModel.ISupportInitialize)(this.pbPreviewImage)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbBlockThumbnail)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -317,5 +354,8 @@ namespace WinformUI.BlockReplace
         private System.Windows.Forms.Button btnSaveReport;
         private System.Windows.Forms.ProgressBar progressBar;
         private System.Windows.Forms.Label lblProgress;
+        private System.Windows.Forms.PictureBox pbPreviewImage;
+        private System.Windows.Forms.PictureBox pbBlockThumbnail;
+        private System.Windows.Forms.Label lblBlockThumbnail;
     }
 }

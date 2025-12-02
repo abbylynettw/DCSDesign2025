@@ -86,13 +86,20 @@ namespace WinformUI.BlockReplace
             progressBar.Value = 0;
             lblProgress.Text = "就绪...";
             
-            AppendLog("块替换工具已就绪，请按以下步骤操作：");
-            AppendLog("1. 选择包含DWG文件的目录");
-            AppendLog("2. 选择源块文件（.dwg文件）");
-            AppendLog("3. 设置目标块名称（默认与源块相同）");
-            AppendLog("4. 配置替换选项");
-            AppendLog("5. 点击预览或开始替换");
-            AppendLog("注意：将从源块文件中读取块定义，递归处理目录中的所有DWG文件");
+            // 改进的用户提示，更友好和清晰
+            AppendLog("欢迎使用块替换工具！", Color.Blue);
+            AppendLog("这是一个功能强大的工具，用于替换DWG文件中的块定义。");
+            AppendLog("请按照以下简单步骤操作：", Color.Green);
+            AppendLog("  1. 首先选择包含要处理的DWG文件的目录");
+            AppendLog("  2. 然后选择源块文件（.dwg格式）");
+            AppendLog("  3. 设置目标块名称（默认与源块相同）");
+            AppendLog("  4. 配置替换选项（如保留属性、位置等）");
+            AppendLog("  5. 点击预览按钮查看预计替换结果");
+            AppendLog("  6. 确认无误后点击开始替换按钮执行操作");
+            AppendLog("\n提示：");
+            AppendLog("  - 工具会递归处理所选目录及其所有子目录中的DWG文件");
+            AppendLog("  - 建议在执行替换前先进行预览，以确保操作正确");
+            AppendLog("  - 工具会自动创建备份文件，以防意外情况发生");
         }
 
         #endregion
@@ -464,6 +471,27 @@ namespace WinformUI.BlockReplace
                     {
                         AppendLog($"  ... 及其他 {unprocessableFiles - 5} 个文件", Color.Orange);
                     }
+                }
+                
+                // 显示预览图像（如果有）
+                var firstPreviewImage = previewResult.FileInfos.FirstOrDefault(f => f.PreviewImage != null)?.PreviewImage;
+                if (firstPreviewImage != null)
+                {
+                    pbPreviewImage.Image = firstPreviewImage;
+                    if (pbBlockThumbnail != null)
+                    {
+                        pbBlockThumbnail.Image = firstPreviewImage; // 同时显示在块缩略图区域
+                    }
+                    AppendLog("已显示第一个文件的预览图像", Color.Blue);
+                }
+                else
+                {
+                    pbPreviewImage.Image = null;
+                    if (pbBlockThumbnail != null)
+                    {
+                        pbBlockThumbnail.Image = null;
+                    }
+                    AppendLog("未找到可预览的图像", Color.Gray);
                 }
                 
                 if (totalEstimatedReplacements > 0)
