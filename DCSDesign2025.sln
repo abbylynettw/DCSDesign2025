@@ -1,4 +1,4 @@
-﻿﻿
+﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.12.35527.113
@@ -11,8 +11,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestUI", "TestUI\TestUI.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyOffice", "MyOffice\MyOffice.csproj", "{33F578DF-B04E-453D-88A4-B54A01671CE0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CADPlugins2025", "..\CADPlugins2025\CADPlugins2025.csproj", "{8B857908-2372-46E4-908A-0438409C5E78}"
-EndProject
+
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InstallerPlugin", "InstallerPlugin\InstallerPlugin.csproj", "{76A29F47-0504-4777-B461-F36E0FB39D5C}"
 EndProject
 Global
@@ -37,10 +36,7 @@ Global
 		{40D0F2AA-8C52-4AF1-BE57-A3C8AACAC9DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{40D0F2AA-8C52-4AF1-BE57-A3C8AACAC9DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{40D0F2AA-8C52-4AF1-BE57-A3C8AACAC9DF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8B857908-2372-46E4-908A-0438409C5E78}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8B857908-2372-46E4-908A-0438409C5E78}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8B857908-2372-46E4-908A-0438409C5E78}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8B857908-2372-46E4-908A-0438409C5E78}.Release|Any CPU.Build.0 = Release|Any CPU
+
 		{76A29F47-0504-4777-B461-F36E0FB39D5C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{76A29F47-0504-4777-B461-F36E0FB39D5C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{76A29F47-0504-4777-B461-F36E0FB39D5C}.Release|Any CPU.ActiveCfg = Release|Any CPU

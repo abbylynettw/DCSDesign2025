@@ -1,4 +1,4 @@
-﻿using log4net;
+using log4net;
 using OfficeOpenXml; // EPPlus命名空间
 using System;
 using System.Collections.Generic;
@@ -16,8 +16,6 @@ namespace MyOffice
     {
         // 日志记录器
         private static readonly ILog Log = LogManager.GetLogger(typeof(ExcelProcessor));
-        // 日志构建器，用于记录处理过程
-        private StringBuilder _logBuilder;
 
         static ExcelProcessor()
         {
@@ -25,86 +23,400 @@ namespace MyOffice
             ExcelPackage.LicenseContext = OfficeOpenXml.LicenseContext.NonCommercial;
         }
 
+        #region 私有辅助方法
+
+        /// <summary>
+        /// 检查Excel文件是否存在
+        /// </summary>
+        /// <param name="filePath">文件路径</param>
+        /// <returns>结果</returns>
+        private Result<FileInfo> CheckExcelFileExists(string filePath)
+        {
+            if (!File.Exists(filePath))
+            {
+                Log.Error($"Excel文件不存在: {filePath}");
+                return Result<FileInfo>.Fail($"Excel文件不存在: {filePath}");
+            }
+
+            return Result<FileInfo>.Ok(new FileInfo(filePath));
+        }
+
+        /// <summary>
+        /// 获取或创建工作表
+        /// </summary>
+        /// <param name="package">Excel包</param>
+        /// <param name="sheetName">工作表名称</param>
+        /// <param name="dataTable">数据表格</param>
+        /// <returns>结果</returns>
+        private Result<ExcelWorksheet> GetOrCreateWorksheet(ExcelPackage package, string sheetName, DataTable dataTable)
+        {
+            var worksheet = package.Workbook.Worksheets[sheetName];
+            bool isNewSheet = false;
+
+            if (worksheet == null)
+            {
+                worksheet = package.Workbook.Worksheets.Add(sheetName);
+                isNewSheet = true;
+                Log.Info($"创建新的工作表: {sheetName}");
+
+                // 新建工作表时，写入列标题
+                WriteColumnHeaders(worksheet, dataTable);
+            }
+
+            return Result<ExcelWorksheet>.Ok(worksheet);
+        }
+
+        /// <summary>
+        /// 写入列标题
+        /// </summary>
+        /// <param name="worksheet">工作表</param>
+        /// <param name="dataTable">数据表格</param>
+        private void WriteColumnHeaders(ExcelWorksheet worksheet, DataTable dataTable)
+        {
+            if (dataTable == null || dataTable.Columns.Count == 0)
+                return;
+
+            for (int col = 0; col < dataTable.Columns.Count; col++)
+            {
+                string headerText;
+                if (dataTable.Rows.Count > 0)
+                {
+                    headerText = dataTable.Rows[0][col]?.ToString() ?? dataTable.Columns[col].ColumnName;
+                }
+                else
+                {
+                    headerText = dataTable.Columns[col].ColumnName;
+                }
+
+                worksheet.Cells[1, col + 1].Value = headerText;
+                worksheet.Cells[1, col + 1].Style.Font.Bold = true;
+            }
+        }
+
+        /// <summary>
+        /// 清除数据行
+        /// </summary>
+        /// <param name="worksheet">工作表</param>
+        /// <param name="totalColumns">总列数</param>
+        private void ClearDataRows(ExcelWorksheet worksheet, int totalColumns)
+        {
+            if (worksheet.Dimension != null && worksheet.Dimension.Rows > 1)
+            {
+                int lastRow = worksheet.Dimension.Rows;
+                var dataRange = worksheet.Cells[2, 1, lastRow, totalColumns];
+                dataRange.Clear();
+            }
+        }
+
+        /// <summary>
+        /// 获取Excel列映射
+        /// </summary>
+        /// <param name="worksheet">工作表</param>
+        /// <returns>列映射</returns>
+        private Dictionary<string, int> GetExcelColumnMapping(ExcelWorksheet worksheet)
+        {
+            Dictionary<string, int> excelColumns = new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
+            int excelColCount = worksheet.Dimension?.Columns ?? 0;
+
+            for (int col = 1; col <= excelColCount; col++)
+            {
+                var headerValue = worksheet.Cells[1, col].Value?.ToString();
+                if (!string.IsNullOrWhiteSpace(headerValue))
+                {
+                    excelColumns[headerValue] = col;
+                }
+            }
+
+            return excelColumns;
+        }
+
+        /// <summary>
+        /// 构建列映射
+        /// </summary>
+        /// <param name="worksheet">工作表</param>
+        /// <param name="dataTable">数据表格</param>
+        /// <param name="preserveHeader">是否保留表头</param>
+        /// <returns>结果</returns>
+        private Result<Dictionary<int, int>> BuildColumnMapping(ExcelWorksheet worksheet, DataTable dataTable, bool preserveHeader)
+        {
+            var excelColumns = GetExcelColumnMapping(worksheet);
+            int excelColCount = excelColumns.Count;
+            Dictionary<int, int> columnMapping = new Dictionary<int, int>();
+
+            if (preserveHeader)
+            {
+                // TableTitle模式：按位置映射
+                BuildPositionColumnMapping(dataTable, excelColCount, columnMapping);
+            }
+            else
+            {
+                // PageType模式：按列名映射
+                BuildNameColumnMapping(dataTable, worksheet, excelColumns, ref excelColCount, columnMapping);
+            }
+
+            if (columnMapping.Count == 0)
+            {
+                Log.Error($"没有找到匹配的列，无法更新数据");
+                return Result<Dictionary<int, int>>.Fail($"没有找到匹配的列，无法更新数据");
+            }
+
+            return Result<Dictionary<int, int>>.Ok(columnMapping);
+        }
+
+        /// <summary>
+        /// 构建位置列映射
+        /// </summary>
+        /// <param name="dataTable">数据表格</param>
+        /// <param name="excelColCount">Excel列数</param>
+        /// <param name="columnMapping">列映射</param>
+        private void BuildPositionColumnMapping(DataTable dataTable, int excelColCount, Dictionary<int, int> columnMapping)
+        {
+            for (int dtCol = 0; dtCol < Math.Min(dataTable.Columns.Count, excelColCount); dtCol++)
+            {
+                columnMapping[dtCol] = dtCol + 1; // Excel列从1开始
+            }
+
+            // 如果数据表有更多列，为这些列在Excel中创建新列
+            for (int dtCol = excelColCount; dtCol < dataTable.Columns.Count; dtCol++)
+            {
+                int newExcelCol = excelColCount + (dtCol - excelColCount) + 1;
+                columnMapping[dtCol] = newExcelCol;
+            }
+        }
+
+        /// <summary>
+        /// 构建名称列映射
+        /// </summary>
+        /// <param name="dataTable">数据表格</param>
+        /// <param name="worksheet">工作表</param>
+        /// <param name="excelColumns">Excel列映射</param>
+        /// <param name="excelColCount">Excel列数</param>
+        /// <param name="columnMapping">列映射</param>
+        private void BuildNameColumnMapping(DataTable dataTable, ExcelWorksheet worksheet, Dictionary<string, int> excelColumns, ref int excelColCount, Dictionary<int, int> columnMapping)
+        {
+            if (dataTable.Rows.Count > 0)
+            {
+                for (int dtCol = 0; dtCol < dataTable.Columns.Count; dtCol++)
+                {
+                    string cellValue = dataTable.Rows[0][dtCol]?.ToString() ?? "";
+                    if (!string.IsNullOrWhiteSpace(cellValue) && excelColumns.TryGetValue(cellValue, out int excelCol))
+                    {
+                        columnMapping[dtCol] = excelCol;
+                    }
+                    else if (excelColumns.TryGetValue(dataTable.Columns[dtCol].ColumnName, out excelCol))
+                    {
+                        // 回退到使用列名
+                        columnMapping[dtCol] = excelCol;
+                    }
+                    else
+                    {
+                        // 在Excel中添加新列
+                        AddNewColumnToExcel(worksheet, dataTable, dtCol, cellValue, ref excelColCount, excelColumns, columnMapping);
+                    }
+                }
+            }
+            else
+            {
+                // 没有数据行的情况，直接使用列名
+                for (int dtCol = 0; dtCol < dataTable.Columns.Count; dtCol++)
+                {
+                    string colName = dataTable.Columns[dtCol].ColumnName;
+                    if (excelColumns.TryGetValue(colName, out int excelCol))
+                    {
+                        columnMapping[dtCol] = excelCol;
+                    }
+                    else
+                    {
+                        // 在Excel中添加新列
+                        AddNewColumnToExcel(worksheet, dataTable, dtCol, colName, ref excelColCount, excelColumns, columnMapping);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// 向Excel添加新列
+        /// </summary>
+        /// <param name="worksheet">工作表</param>
+        /// <param name="dataTable">数据表格</param>
+        /// <param name="dtCol">数据表格列索引</param>
+        /// <param name="headerText">列标题</param>
+        /// <param name="excelColCount">Excel列数</param>
+        /// <param name="excelColumns">Excel列映射</param>
+        /// <param name="columnMapping">列映射</param>
+        private void AddNewColumnToExcel(ExcelWorksheet worksheet, DataTable dataTable, int dtCol, string headerText, ref int excelColCount, Dictionary<string, int> excelColumns, Dictionary<int, int> columnMapping)
+        {
+            int newExcelCol = excelColCount + 1;
+            excelColCount++;
+
+            worksheet.Cells[1, newExcelCol].Value = headerText;
+            worksheet.Cells[1, newExcelCol].Style.Font.Bold = true;
+
+            columnMapping[dtCol] = newExcelCol;
+            if (!string.IsNullOrWhiteSpace(headerText))
+            {
+                excelColumns[headerText] = newExcelCol;
+            }
+        }
+
+        /// <summary>
+        /// 写入数据行
+        /// </summary>
+        /// <param name="worksheet">工作表</param>
+        /// <param name="dataTable">数据表格</param>
+        /// <param name="columnMapping">列映射</param>
+        /// <returns>写入的行数</returns>
+        private int WriteDataRows(ExcelWorksheet worksheet, DataTable dataTable, Dictionary<int, int> columnMapping)
+        {
+            int startDataRow = 2; // Excel行从1开始，跳过标题行
+            int dataRowsWritten = 0;
+            int startRowIndex = 1; // DataTable的索引从0开始，所以第二行是索引1
+
+            for (int row = startRowIndex; row < dataTable.Rows.Count; row++)
+            {
+                int targetExcelRow = startDataRow + dataRowsWritten;
+                dataRowsWritten++;
+
+                // 写入数据
+                foreach (var mapping in columnMapping)
+                {
+                    int dtCol = mapping.Key;
+                    int excelCol = mapping.Value;
+
+                    var cell = worksheet.Cells[targetExcelRow, excelCol];
+                    var value = dataTable.Rows[row][dtCol];
+
+                    // 保存当前单元格的所有样式属性
+                    var originalStyle = cell.Style;
+                    var originalNumberFormat = cell.Style.Numberformat.Format;
+
+                    // 设置单元格值，无论是否为空
+                    if (value != null && value != DBNull.Value)
+                    {
+                        cell.Value = value;
+                    }
+                    else
+                    {
+                        cell.Value = null; // 明确设置为null以清空单元格
+                    }
+
+                    // 如果是新增的数值类型，且没有原始格式，则设置默认格式
+                    if (string.IsNullOrEmpty(originalNumberFormat))
+                    {
+                        if (value is DateTime)
+                            cell.Style.Numberformat.Format = "yyyy-MM-dd HH:mm:ss";
+                        else if (value is decimal || value is double || value is float)
+                            cell.Style.Numberformat.Format = "#,##0.00";
+                    }
+                    // 否则保持原有格式不变
+                }
+            }
+
+            return dataRowsWritten;
+        }
+
+        #endregion
+
         /// <summary>
         /// 从Excel文件中读取数据，只匹配与目标类型属性名相同的列
         /// </summary>
         public List<T> GetDataFromExcel<T>(string filePath, int sheetIndex = 0) where T : new()
         {
-            if (!File.Exists(filePath))
-                throw new FileNotFoundException($"未找到Excel文件: {filePath}");
-
-            List<T> resultList = new List<T>();
-
-            using (var package = new ExcelPackage(new FileInfo(filePath)))
+            try
             {
-                // 获取指定索引的工作表
-                var worksheet = package.Workbook.Worksheets[sheetIndex]; // EPPlus索引从1开始
-
-                if (worksheet == null)
-                    throw new ArgumentException($"工作表索引 {sheetIndex} 不存在");
-
-                // 获取数据范围
-                int rowCount = worksheet.Dimension.End.Row;
-                int colCount = worksheet.Dimension.End.Column;
-
-                if (rowCount <= 1) // 至少需要有标题行和一行数据
-                    return resultList;
-
-                // 获取类型T的所有属性
-                PropertyInfo[] properties = typeof(T).GetProperties();
-                Dictionary<int, PropertyInfo> columnToProperty = new Dictionary<int, PropertyInfo>();
-
-                // 建立列索引到属性的映射
-                for (int col = 1; col <= colCount; col++) // EPPlus从1开始
+                // 检查文件是否存在
+                var fileResult = CheckExcelFileExists(filePath);
+                if (!fileResult.Success)
                 {
-                    string headerName = worksheet.Cells[1, col].Value?.ToString()?.Trim();
-                    if (string.IsNullOrEmpty(headerName))
-                        continue;
+                    Log.Error($"读取Excel文件失败: {fileResult.ErrorMessage}");
+                    return new List<T>();
+                }
 
-                    // 查找匹配的属性
-                    foreach (PropertyInfo property in properties)
+                List<T> resultList = new List<T>();
+
+                using (var package = new ExcelPackage(fileResult.Data))
+                {
+                    // 获取指定索引的工作表
+                    var worksheet = package.Workbook.Worksheets[sheetIndex]; // EPPlus索引从1开始
+
+                    if (worksheet == null)
                     {
-                        if (string.Equals(headerName, property.Name, StringComparison.OrdinalIgnoreCase))
+                        Log.Error($"读取Excel文件失败: 工作表索引 {sheetIndex} 不存在");
+                        return new List<T>();
+                    }
+
+                    // 获取数据范围
+                    int rowCount = worksheet.Dimension?.End.Row ?? 0;
+                    int colCount = worksheet.Dimension?.End.Column ?? 0;
+
+                    if (rowCount <= 1) // 至少需要有标题行和一行数据
+                    {
+                        Log.Info($"Excel文件中没有数据行: {filePath}");
+                        return resultList;
+                    }
+
+                    // 获取类型T的所有属性
+                    PropertyInfo[] properties = typeof(T).GetProperties();
+                    Dictionary<int, PropertyInfo> columnToProperty = new Dictionary<int, PropertyInfo>();
+
+                    // 建立列索引到属性的映射
+                    for (int col = 1; col <= colCount; col++) // EPPlus从1开始
+                    {
+                        string headerName = worksheet.Cells[1, col].Value?.ToString()?.Trim();
+                        if (string.IsNullOrEmpty(headerName))
+                            continue;
+
+                        // 查找匹配的属性
+                        foreach (PropertyInfo property in properties)
                         {
-                            columnToProperty[col] = property;
-                            break;
+                            if (string.Equals(headerName, property.Name, StringComparison.OrdinalIgnoreCase))
+                            {
+                                columnToProperty[col] = property;
+                                break;
+                            }
+
+                            // 检查DisplayName特性
+                            var displayAttr = property.GetCustomAttribute<System.ComponentModel.DisplayNameAttribute>();
+                            if (displayAttr != null && string.Equals(headerName, displayAttr.DisplayName, StringComparison.OrdinalIgnoreCase))
+                            {
+                                columnToProperty[col] = property;
+                                break;
+                            }
+                        }
+                    }
+
+                    // 处理数据行
+                    for (int row = 2; row <= rowCount; row++) // 从第2行开始（跳过标题）
+                    {
+                        T item = new T();
+                        bool hasData = false;
+
+                        foreach (var mapping in columnToProperty)
+                        {
+                            int col = mapping.Key;
+                            PropertyInfo property = mapping.Value;
+
+                            object cellValue = worksheet.Cells[row, col].Value;
+                            if (cellValue != null)
+                            {
+                                hasData = true;
+                                SetPropertyValue(property, item, cellValue);
+                            }
                         }
 
-                        // 检查DisplayName特性
-                        var displayAttr = property.GetCustomAttribute<System.ComponentModel.DisplayNameAttribute>();
-                        if (displayAttr != null && string.Equals(headerName, displayAttr.DisplayName, StringComparison.OrdinalIgnoreCase))
-                        {
-                            columnToProperty[col] = property;
-                            break;
-                        }
+                        if (hasData)
+                            resultList.Add(item);
                     }
                 }
 
-                // 处理数据行
-                for (int row = 2; row <= rowCount; row++) // 从第2行开始（跳过标题）
-                {
-                    T item = new T();
-                    bool hasData = false;
-
-                    foreach (var mapping in columnToProperty)
-                    {
-                        int col = mapping.Key;
-                        PropertyInfo property = mapping.Value;
-
-                        object cellValue = worksheet.Cells[row, col].Value;
-                        if (cellValue != null)
-                        {
-                            hasData = true;
-                            SetPropertyValue(property, item, cellValue);
-                        }
-                    }
-
-                    if (hasData)
-                        resultList.Add(item);
-                }
+                Log.Info($"Excel文件读取成功: {filePath}, 读取了 {resultList.Count} 条数据");
+                return resultList;
             }
-
-            return resultList;
+            catch (Exception ex)
+            {
+                Log.Error($"读取Excel文件失败: {filePath}, 错误: {ex.Message}", ex);
+                return new List<T>();
+            }
         }
 
         private void SetPropertyValue(PropertyInfo property, object obj, object value)
@@ -141,235 +453,66 @@ namespace MyOffice
         /// <param name="dataTable">要更新的数据</param>
         /// <param name="preserveHeader">是否保留第一行标题行（TableTitle模式）</param>
         /// <returns>是否更新成功</returns>
-        public async Task<bool> UpdateExcelSheet(string excelFilePath, string sheetName, DataTable dataTable, bool preserveHeader = false,bool enableMergeCells=false)
+        public async Task<bool> UpdateExcelSheet(string excelFilePath, string sheetName, DataTable dataTable, bool preserveHeader = false, bool enableMergeCells = false)
         {
             try
             {
                 // 检查文件是否存在
-                FileInfo file = new FileInfo(excelFilePath);
-                if (!file.Exists)
+                var fileResult = CheckExcelFileExists(excelFilePath);
+                if (!fileResult.Success)
                 {
-                    Log.Error($"更新Excel文件失败: 文件不存在 {excelFilePath}");
+                    Log.Error($"更新Excel文件失败: {fileResult.ErrorMessage}");
                     return false;
                 }
 
                 // 锁定文件进行操作，防止多线程访问冲突
-                using (var package = new ExcelPackage(file))
+                using (var package = new ExcelPackage(fileResult.Data))
                 {
                     // 检查工作表是否存在，不存在则创建
-                    var worksheet = package.Workbook.Worksheets[sheetName];
-                    bool isNewSheet = false;
-
-                    if (worksheet == null)
+                    var worksheetResult = GetOrCreateWorksheet(package, sheetName, dataTable);
+                    if (!worksheetResult.Success)
                     {
-                        worksheet = package.Workbook.Worksheets.Add(sheetName);
-                        isNewSheet = true;
-                        Log.Info($"创建新的工作表: {sheetName}");
-
-                        // 新建工作表时，写入列标题 - 使用DataTable的第一行作为标题
-                        if (dataTable != null && dataTable.Rows.Count > 0 && dataTable.Columns.Count > 0)
-                        {
-                            for (int col = 0; col < dataTable.Columns.Count; col++)
-                            {
-                                // 第一行单元格作为标题
-                                string headerText = dataTable.Rows[0][col]?.ToString() ?? dataTable.Columns[col].ColumnName;
-                                worksheet.Cells[1, col + 1].Value = headerText;
-                                worksheet.Cells[1, col + 1].Style.Font.Bold = true;
-                            }
-                        }
-                        else
-                        {
-                            // 如果没有数据，使用列名
-                            for (int col = 0; col < dataTable.Columns.Count; col++)
-                            {
-                                worksheet.Cells[1, col + 1].Value = dataTable.Columns[col].ColumnName;
-                                worksheet.Cells[1, col + 1].Style.Font.Bold = true;
-                            }
-                        }
+                        Log.Error($"更新Excel文件失败: {worksheetResult.ErrorMessage}");
+                        return false;
                     }
 
+                    var worksheet = worksheetResult.Data;
 
                     // 如果DataTable为空或没有列，则只清空非标题行内容
                     if (dataTable == null || dataTable.Columns.Count == 0 || dataTable.Rows.Count == 0)
                     {
-                        if (worksheet.Dimension != null && worksheet.Dimension.Rows > 1)
-                        {
-                            int lastRow = worksheet.Dimension.Rows;
-                            int lastCol = worksheet.Dimension.Columns;
-                            var dataRange = worksheet.Cells[2, 1, lastRow, lastCol];
-                            dataRange.Clear();
-                        }
+                        int lastCol = worksheet.Dimension?.Columns ?? 0;
+                        ClearDataRows(worksheet, lastCol);
 
                         await package.SaveAsync();
                         Log.Info($"Excel工作表数据行已清空: {excelFilePath}, 工作表: {sheetName}");
                         return true;
                     }
 
-                    // 获取Excel中的列名及其索引
-                    Dictionary<string, int> excelColumns = new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
-                    int excelColCount = worksheet.Dimension?.Columns ?? 0;
-
-                    for (int col = 1; col <= excelColCount; col++)
+                    // 构建列映射
+                    var columnMappingResult = BuildColumnMapping(worksheet, dataTable, preserveHeader);
+                    if (!columnMappingResult.Success)
                     {
-                        var headerValue = worksheet.Cells[1, col].Value?.ToString();
-                        if (!string.IsNullOrWhiteSpace(headerValue))
-                        {
-                            excelColumns[headerValue] = col;
-                        }
-                    }
-
-                    // 处理列映射
-                    Dictionary<int, int> columnMapping = new Dictionary<int, int>();
-
-                    if (preserveHeader)
-                    {
-                        // TableTitle模式：按位置映射，不考虑列名
-                        for (int dtCol = 0; dtCol < Math.Min(dataTable.Columns.Count, excelColCount); dtCol++)
-                        {
-                            columnMapping[dtCol] = dtCol + 1; // Excel列从1开始
-                        }
-
-                        // 如果数据表有更多列，为这些列在Excel中创建新列
-                        for (int dtCol = excelColCount; dtCol < dataTable.Columns.Count; dtCol++)
-                        {
-                            int newExcelCol = excelColCount + (dtCol - excelColCount) + 1;
-                            columnMapping[dtCol] = newExcelCol;
-                        }
-                    }
-                    else
-                    {
-                        // PageType模式：按列名映射
-                        // 首先尝试使用第一行的值作为列名进行映射
-                        if (dataTable.Rows.Count > 0)
-                        {
-                            for (int dtCol = 0; dtCol < dataTable.Columns.Count; dtCol++)
-                            {
-                                string cellValue = dataTable.Rows[0][dtCol]?.ToString() ?? "";
-                                if (!string.IsNullOrWhiteSpace(cellValue) && excelColumns.TryGetValue(cellValue, out int excelCol))
-                                {
-                                    columnMapping[dtCol] = excelCol;
-                                }
-                                else if (excelColumns.TryGetValue(dataTable.Columns[dtCol].ColumnName, out excelCol))
-                                {
-                                    // 回退到使用列名
-                                    columnMapping[dtCol] = excelCol;
-                                }
-                                else
-                                {
-                                    // 在Excel中添加新列
-                                    int newExcelCol = excelColCount + 1;
-                                    excelColCount++;
-
-                                    // 使用CAD表格的第一行单元格作为列标题
-                                    string headerText = !string.IsNullOrWhiteSpace(cellValue)
-                                        ? cellValue
-                                        : dataTable.Columns[dtCol].ColumnName;
-
-                                    worksheet.Cells[1, newExcelCol].Value = headerText;
-                                    worksheet.Cells[1, newExcelCol].Style.Font.Bold = true;
-
-                                    columnMapping[dtCol] = newExcelCol;
-                                    if (!string.IsNullOrWhiteSpace(headerText))
-                                    {
-                                        excelColumns[headerText] = newExcelCol;
-                                    }
-                                }
-                            }
-                        }
-                        else
-                        {
-                            // 没有数据行的情况，直接使用列名
-                            for (int dtCol = 0; dtCol < dataTable.Columns.Count; dtCol++)
-                            {
-                                string colName = dataTable.Columns[dtCol].ColumnName;
-                                if (excelColumns.TryGetValue(colName, out int excelCol))
-                                {
-                                    columnMapping[dtCol] = excelCol;
-                                }
-                                else
-                                {
-                                    // 在Excel中添加新列
-                                    int newExcelCol = excelColCount + 1;
-                                    excelColCount++;
-
-                                    worksheet.Cells[1, newExcelCol].Value = colName;
-                                    worksheet.Cells[1, newExcelCol].Style.Font.Bold = true;
-
-                                    columnMapping[dtCol] = newExcelCol;
-                                    excelColumns[colName] = newExcelCol;
-                                }
-                            }
-                        }
-                    }
-
-                    if (columnMapping.Count == 0)
-                    {
-                        Log.Error($"没有找到匹配的列，无法更新数据");
+                        Log.Error($"更新Excel文件失败: {columnMappingResult.ErrorMessage}");
                         return false;
                     }
 
+                    var columnMapping = columnMappingResult.Data;
+                    int totalColumns = Math.Max(columnMapping.Values.Max(), dataTable.Columns.Count);
+
                     // 清除除标题行外的现有数据
-                    if (worksheet.Dimension != null && worksheet.Dimension.Rows > 1)
-                    {
-                        int lastRow = worksheet.Dimension.Rows;
-                        int totalColumns = Math.Max(excelColCount, dataTable.Columns.Count);
-                        var dataRange = worksheet.Cells[2, 1, lastRow, totalColumns];
-                        dataRange.Clear();
-                    }
+                    ClearDataRows(worksheet, totalColumns);
 
-                    // 写入数据行 - 重要：始终从DataTable的第二行开始（跳过表头行）
-                    int startDataRow = 2; // Excel行从1开始，跳过标题行
-                    int dataRowsWritten = 0;
+                    // 写入数据行
+                    int dataRowsWritten = WriteDataRows(worksheet, dataTable, columnMapping);
 
-                    // 计算起始行 - 对于两种表格类型都跳过第一行（表头行）
-                    int startRowIndex = 1; // DataTable的索引从0开始，所以第二行是索引1
-
-                    for (int row = startRowIndex; row < dataTable.Rows.Count; row++)
-                    {
-                        int targetExcelRow = startDataRow + dataRowsWritten;
-                        dataRowsWritten++;
-
-                        // 写入数据
-                        foreach (var mapping in columnMapping)
-                        {
-                            int dtCol = mapping.Key;
-                            int excelCol = mapping.Value;
-
-                            var cell = worksheet.Cells[targetExcelRow, excelCol];
-                            var value = dataTable.Rows[row][dtCol];
-
-                            // 保存当前单元格的所有样式属性
-                            var originalStyle = cell.Style;
-                            var originalNumberFormat = cell.Style.Numberformat.Format;
-
-                            // 设置单元格值，无论是否为空
-                            if (value != null && value != DBNull.Value)
-                            {
-                                cell.Value = value;
-                            }
-                            else
-                            {
-                                cell.Value = null; // 明确设置为null以清空单元格
-                            }
-
-                            // 如果是新增的数值类型，且没有原始格式，则设置默认格式
-                            if (string.IsNullOrEmpty(originalNumberFormat))
-                            {
-                                if (value is DateTime)
-                                    cell.Style.Numberformat.Format = "yyyy-MM-dd HH:mm:ss";
-                                else if (value is decimal || value is double || value is float)
-                                    cell.Style.Numberformat.Format = "#,##0.00";
-                            }
-                            // 否则保持原有格式不变
-                        }
-                    }
                     // 处理合并单元格
                     if (enableMergeCells && dataTable.ExtendedProperties.ContainsKey("MergedCells"))
                     {
                         var mergedCells = dataTable.ExtendedProperties["MergedCells"] as List<MergedCellInfo>;
                         if (mergedCells != null && mergedCells.Count > 0)
                         {
-                            ApplyMergedCells(worksheet, mergedCells, startDataRow);
+                            ApplyMergedCells(worksheet, mergedCells, 2);
                             Log.Info($"应用了 {mergedCells.Count} 个合并单元格");
                         }
                     }
@@ -392,37 +535,36 @@ namespace MyOffice
         {
             try
             {
-                _logBuilder = new StringBuilder();
-                _logBuilder.AppendLine($"开始更新Excel文件: {excelFilePath}, 工作表: {sheetName}");
+                Log.Info($"开始更新Excel文件: {excelFilePath}, 工作表: {sheetName}");
 
                 // 检查文件是否存在
-                FileInfo file = new FileInfo(excelFilePath);
-                if (!file.Exists)
+                var fileResult = CheckExcelFileExists(excelFilePath);
+                if (!fileResult.Success)
                 {
-                    Log.Error($"Excel文件不存在: {excelFilePath}");
+                    Log.Error($"更新Excel文件失败: {fileResult.ErrorMessage}");
                     return false;
                 }
 
                 // 检查单元格列表是否为空
                 if (cells == null || cells.Count == 0)
                 {
-                    _logBuilder.AppendLine($"没有提供需要更新的单元格数据");
+                    Log.Info($"没有提供需要更新的单元格数据");
                     return false;
                 }
 
                 // 锁定文件进行操作，防止多线程访问冲突
-                using (var package = new ExcelPackage(file))
+                using (var package = new ExcelPackage(fileResult.Data))
                 {
                     // 检查工作表是否存在，不存在则创建
                     var worksheet = package.Workbook.Worksheets[sheetName];
                     if (worksheet == null)
                     {
-                        _logBuilder.AppendLine($"工作表 {sheetName} 不存在，创建新工作表");
+                        Log.Info($"工作表 {sheetName} 不存在，创建新工作表");
                         worksheet = package.Workbook.Worksheets.Add(sheetName);
                     }
                     else
                     {
-                        _logBuilder.AppendLine($"工作表 {sheetName} 已存在，更新现有工作表");
+                        Log.Info($"工作表 {sheetName} 已存在，更新现有工作表");
                     }
 
                     // 更新单元格数据
@@ -431,7 +573,7 @@ namespace MyOffice
                     {
                         if (cell.rowIndex <= 0 || cell.colIndex <= 0)
                         {
-                            _logBuilder.AppendLine($"忽略无效单元格坐标: 行={cell.rowIndex}, 列={cell.colIndex}");
+                            Log.Warn($"忽略无效单元格坐标: 行={cell.rowIndex}, 列={cell.colIndex}");
                             continue;
                         }
 
@@ -451,7 +593,7 @@ namespace MyOffice
                         updatedCount++;
                     }
 
-                    _logBuilder.AppendLine($"工作表 {sheetName} 已更新 {updatedCount} 个单元格");
+                    Log.Info($"工作表 {sheetName} 已更新 {updatedCount} 个单元格");
 
                     // 自动调整列宽以适应内容
                     if (worksheet.Dimension != null)
@@ -460,7 +602,7 @@ namespace MyOffice
                     }
 
                     // 保存更改
-                    _logBuilder.AppendLine($"保存Excel文件更改");
+                    Log.Info($"保存Excel文件更改");
                     await package.SaveAsync();
                 }
 
@@ -470,15 +612,7 @@ namespace MyOffice
             catch (Exception ex)
             {
                 Log.Error($"更新Excel文件失败: {excelFilePath}, 工作表: {sheetName}, 错误: {ex.Message}", ex);
-                _logBuilder.AppendLine($"错误: {ex.Message}");
                 return false;
-            }
-            finally
-            {
-                if (_logBuilder != null && _logBuilder.Length > 0)
-                {
-                    Log.Debug(_logBuilder.ToString());
-                }
             }
         }
 
@@ -494,19 +628,19 @@ namespace MyOffice
             {
                 try
                 {
-                    _logBuilder = new StringBuilder();
-                    _logBuilder.AppendLine($"开始读取Excel文件: {filePath}, 工作表: {sheetName}");
+                    Log.Info($"开始读取Excel文件: {filePath}, 工作表: {sheetName}");
 
                     // 检查文件是否存在
-                    if (!File.Exists(filePath))
+                    var fileResult = CheckExcelFileExists(filePath);
+                    if (!fileResult.Success)
                     {
-                        Log.Error($"Excel文件不存在: {filePath}");
+                        Log.Error(fileResult.ErrorMessage);
                         return null;
                     }
 
                     DataTable dt = new DataTable(sheetName);
 
-                    using (var package = new ExcelPackage(new FileInfo(filePath)))
+                    using (var package = new ExcelPackage(fileResult.Data))
                     {
                         // 获取指定名称的工作表
                         var worksheet = package.Workbook.Worksheets[sheetName];
@@ -519,19 +653,19 @@ namespace MyOffice
                         // 如果工作表为空，直接返回空表
                         if (worksheet.Dimension == null)
                         {
-                            _logBuilder.AppendLine($"工作表 '{sheetName}' 为空");
+                            Log.Info($"工作表 '{sheetName}' 为空");
                             return dt;
                         }
 
                         int rowCount = worksheet.Dimension.Rows;
                         int colCount = worksheet.Dimension.Columns;
 
-                        _logBuilder.AppendLine($"工作表维度: {rowCount} 行, {colCount} 列");
+                        Log.Info($"工作表维度: {rowCount} 行, {colCount} 列");
 
                         // 如果只有标题行或者为空，返回空表
                         if (rowCount <= 1)
                         {
-                            _logBuilder.AppendLine($"工作表只有标题行或为空");
+                            Log.Info($"工作表只有标题行或为空");
                             return dt;
                         }
 
@@ -611,12 +745,7 @@ namespace MyOffice
                             }
                         }
 
-                        _logBuilder.AppendLine($"从工作表 '{sheetName}' 读取了 {dt.Rows.Count} 行数据 (其中非空行: {nonEmptyRowCount} 行)");
-                    }
-
-                    if (_logBuilder != null && _logBuilder.Length > 0)
-                    {
-                        Log.Debug(_logBuilder.ToString());
+                        Log.Info($"从工作表 '{sheetName}' 读取了 {dt.Rows.Count} 行数据 (其中非空行: {nonEmptyRowCount} 行)");
                     }
 
                     return dt;
@@ -641,19 +770,19 @@ namespace MyOffice
             {
                 try
                 {
-                    _logBuilder = new StringBuilder();
-                    _logBuilder.AppendLine($"开始读取Excel文件单元格: {filePath}, 工作表: {sheetName}");
+                    Log.Info($"开始读取Excel文件单元格: {filePath}, 工作表: {sheetName}");
 
                     // 检查文件是否存在
-                    if (!File.Exists(filePath))
+                    var fileResult = CheckExcelFileExists(filePath);
+                    if (!fileResult.Success)
                     {
-                        Log.Error($"Excel文件不存在: {filePath}");
+                        Log.Error(fileResult.ErrorMessage);
                         return null;
                     }
 
                     List<MyCell> cells = new List<MyCell>();
 
-                    using (var package = new ExcelPackage(new FileInfo(filePath)))
+                    using (var package = new ExcelPackage(fileResult.Data))
                     {
                         // 获取指定名称的工作表
                         var worksheet = package.Workbook.Worksheets[sheetName];
@@ -666,13 +795,13 @@ namespace MyOffice
                         // 如果工作表为空，直接返回空列表
                         if (worksheet.Dimension == null)
                         {
-                            _logBuilder.AppendLine($"工作表 '{sheetName}' 为空");
+                            Log.Info($"工作表 '{sheetName}' 为空");
                             return cells;
                         }
 
                         int rowCount = worksheet.Dimension.Rows;
                         int colCount = worksheet.Dimension.Columns;
-                        _logBuilder.AppendLine($"工作表维度: {rowCount} 行, {colCount} 列");
+                        Log.Info($"工作表维度: {rowCount} 行, {colCount} 列");
 
                         // 定义起始行（从第4行开始）
                         int startRow = 4;
@@ -720,27 +849,22 @@ namespace MyOffice
                                 // 记录空单元格
                                 if (string.IsNullOrWhiteSpace(cellValue))
                                 {
-                                    _logBuilder.AppendLine($"  空单元格 [{row},{col}] 已添加到列表");
+                                    Log.Debug($"  空单元格 [{row},{col}] 已添加到列表");
                                 }
                             }
 
                             if (rowHasData)
                             {
-                                _logBuilder.AppendLine($"  行 {row} 包含数据");
+                                Log.Debug($"  行 {row} 包含数据");
                             }
                             else
                             {
-                                _logBuilder.AppendLine($"  行 {row} 仅包含空单元格");
+                                Log.Debug($"  行 {row} 仅包含空单元格");
                             }
                         }
 
-                        _logBuilder.AppendLine($"从工作表 '{sheetName}' 读取了 {cells.Count} 个单元格数据（从第 {startRow} 行开始）");
-                        _logBuilder.AppendLine($"包括空单元格和非空单元格");
-                    }
-
-                    if (_logBuilder != null && _logBuilder.Length > 0)
-                    {
-                        Log.Debug(_logBuilder.ToString());
+                        Log.Info($"从工作表 '{sheetName}' 读取了 {cells.Count} 个单元格数据（从第 {startRow} 行开始）");
+                        Log.Info($"包括空单元格和非空单元格");
                     }
 
                     return cells;
@@ -806,13 +930,15 @@ namespace MyOffice
 
                 try
                 {
-                    if (!File.Exists(filePath))
+                    // 检查文件是否存在
+                    var fileResult = CheckExcelFileExists(filePath);
+                    if (!fileResult.Success)
                     {
-                        Log.Error($"Excel文件不存在: {filePath}");
+                        Log.Error(fileResult.ErrorMessage);
                         return mergedCells;
                     }
 
-                    using (var package = new ExcelPackage(new FileInfo(filePath)))
+                    using (var package = new ExcelPackage(fileResult.Data))
                     {
                         var worksheet = package.Workbook.Worksheets[sheetName];
                         if (worksheet == null)
